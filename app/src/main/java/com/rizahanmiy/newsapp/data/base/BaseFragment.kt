@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment : Fragment(){
+abstract class BaseFragment : Fragment() {
 
-    abstract val layout:Int
+    abstract val layout: Int
 
     abstract fun onPreparation()
-    abstract fun onIntent()
+//    abstract fun onIntent()
     abstract fun onUi()
     abstract fun onAction()
     abstract fun onObserver()
@@ -27,7 +27,7 @@ abstract class BaseFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onPreparation()
-        onIntent()
+//        onIntent()
         onUi()
         onAction()
         onObserver()

@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">News App</string>
-    <string name="title_activity_home">Home</string>
 
 
     <string name="message_please_click_back_again_to_exit">Please click BACK again to exit</string>
-    <string name="title_feed">Feed</string>
-    <string name="title_category">Category</string>
     <string name="newsImageDesc">NewsImage</string>
     <string name="fragment_category">Category</string>
     <string name="fragment_feeds">Feeds</string>

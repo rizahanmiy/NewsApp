@@ -11,8 +11,8 @@ interface RemoteApi {
     @GET("top-headlines?")
     fun fetchNewsArticles(@QueryMap param: HashMap<String, Any?>): Observable<BaseDataArticlesApi>
 
-    @GET("everything?")
-    fun fetchNewsEverything(@QueryMap param: HashMap<String, Any?>): Observable<BaseDataArticlesApi>
+//    @GET("everything?")
+//    fun fetchNewsEverything(@QueryMap param: HashMap<String, Any?>): Observable<BaseDataArticlesApi>
 
 
     //News return Sources {}

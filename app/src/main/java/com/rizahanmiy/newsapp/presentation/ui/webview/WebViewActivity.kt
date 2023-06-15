@@ -2,15 +2,11 @@ package com.rizahanmiy.newsapp.presentation.ui.webview
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.webkit.WebChromeClient
 import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.base.BaseActivity
-import com.rizahanmiy.newsapp.presentation.ui.main.MainActivity
 import com.rizahanmiy.newsapp.utils.common.overrideWebView
-import com.rizahanmiy.newsapp.utils.common.setDesktopMode
 import com.rizahanmiy.newsapp.utils.constants.AppConstants.KeyIntents.KEY_URL
 import kotlinx.android.synthetic.main.activity_web_view.*
 import kotlinx.android.synthetic.main.layout_toolbar_level2.*

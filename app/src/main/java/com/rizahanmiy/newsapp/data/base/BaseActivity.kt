@@ -26,11 +26,4 @@ abstract class BaseActivity : AppCompatActivity(){
         onObserver()
     }
 
-    fun showToolbar(toolbar: androidx.appcompat.widget.Toolbar, title:String, isBack:Boolean = true){
-        toolbar.title = title
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowHomeEnabled(isBack)
-        supportActionBar?.setDisplayHomeAsUpEnabled(isBack)
-    }
-
 }

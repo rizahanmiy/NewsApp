@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.entities.NewsSourceApi
-import kotlinx.android.synthetic.main.list_item_news_category.view.*
 import kotlinx.android.synthetic.main.list_item_source.view.*
 
 class NewsSourceListAdapter(

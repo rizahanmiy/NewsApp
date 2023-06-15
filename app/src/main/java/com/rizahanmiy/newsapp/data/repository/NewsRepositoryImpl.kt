@@ -5,7 +5,6 @@ import com.rizahanmiy.newsapp.BuildConfig
 import com.rizahanmiy.newsapp.data.api.RemoteApi
 import com.rizahanmiy.newsapp.data.entities.NewsArticlesApi
 import com.rizahanmiy.newsapp.data.entities.NewsSourceApi
-import com.rizahanmiy.newsapp.data.local.LocalPreferences
 import com.rizahanmiy.newsapp.domain.common.ResultState
 import com.rizahanmiy.newsapp.domain.repository.UserRepository
 import com.rizahanmiy.newsapp.utils.common.handleApiError
@@ -14,7 +13,6 @@ import io.reactivex.Observable
 
 class NewsRepositoryImpl(
     private val api: RemoteApi,
-    private val localPreferences: LocalPreferences,
     val context: Context
 ) : UserRepository {
 

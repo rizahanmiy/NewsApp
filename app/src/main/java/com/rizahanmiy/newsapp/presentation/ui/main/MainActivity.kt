@@ -8,18 +8,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.base.BaseActivity
-import com.rizahanmiy.newsapp.data.local.LocalPreferences
-import com.rizahanmiy.newsapp.presentation.ui.feed.FeedFragment
 import com.rizahanmiy.newsapp.presentation.ui.categories.CategoriesFragment
+import com.rizahanmiy.newsapp.presentation.ui.feed.FeedFragment
 import com.rizahanmiy.newsapp.presentation.viewmodel.NewsViewModel
 import com.rizahanmiy.newsapp.presentation.viewmodel.ViewModelFactory
 import com.rizahanmiy.newsapp.utils.common.IOSelectTab
-import com.rizahanmiy.newsapp.utils.constants.AppConstants.KeyIntents.KEY_MODEL
-import com.rizahanmiy.newsapp.utils.constants.AppConstants.NEWS_PREF
 import com.rizahanmiy.newsapp.utils.extension.replaceFragment
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,9 +29,6 @@ class MainActivity : BaseActivity(), IOSelectTab,
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModelUser: NewsViewModel
-
-    private lateinit var sharedPreferences: LocalPreferences
-
 
     private var isDoubleBackToExitPressedOnce = false
 
@@ -61,8 +54,7 @@ class MainActivity : BaseActivity(), IOSelectTab,
 
     override fun onPreparation() {
         AndroidInjection.inject(this)
-        viewModelUser = ViewModelProvider(this, viewModelFactory).get(NewsViewModel::class.java)
-        sharedPreferences = LocalPreferences(this.getSharedPreferences(NEWS_PREF, 0))
+        viewModelUser = ViewModelProvider(this, viewModelFactory)[NewsViewModel::class.java]
     }
 
     override fun onIntent() {

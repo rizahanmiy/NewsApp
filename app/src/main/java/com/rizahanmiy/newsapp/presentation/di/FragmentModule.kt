@@ -13,19 +13,5 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun categoriesFragment(): CategoriesFragment
-//
-//    @ContributesAndroidInjector
-//    abstract fun cartFragment(): CartDialogFragment
-//
-//    @ContributesAndroidInjector
-//    abstract fun historyFragment(): OrderFragment
-//
-//    @ContributesAndroidInjector
-//    abstract fun helpFragment(): HelpFragment
-//
-//
-//    @ContributesAndroidInjector
-//    abstract fun chatFragment(): ChatFragment
-//
 
 }

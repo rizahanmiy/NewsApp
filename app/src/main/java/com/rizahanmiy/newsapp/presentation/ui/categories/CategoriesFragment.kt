@@ -2,13 +2,10 @@ package com.rizahanmiy.newsapp.presentation.ui.categories
 
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +13,6 @@ import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.base.BaseFragment
 import com.rizahanmiy.newsapp.data.entities.NewsArticlesApi
 import com.rizahanmiy.newsapp.data.entities.NewsSourceApi
-import com.rizahanmiy.newsapp.data.local.LocalPreferences
 import com.rizahanmiy.newsapp.domain.common.ResultState
 import com.rizahanmiy.newsapp.domain.common.State
 import com.rizahanmiy.newsapp.presentation.ui.adapter.CategoryListAdapter
@@ -26,7 +22,6 @@ import com.rizahanmiy.newsapp.presentation.ui.webview.WebViewActivity
 import com.rizahanmiy.newsapp.presentation.viewmodel.NewsViewModel
 import com.rizahanmiy.newsapp.presentation.viewmodel.ViewModelFactory
 import com.rizahanmiy.newsapp.utils.common.categoryList
-import com.rizahanmiy.newsapp.utils.constants.AppConstants.NEWS_PREF
 import com.rizahanmiy.newsapp.utils.extension.observe
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_categories.*
@@ -48,8 +43,6 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
     private lateinit var categoryListAdapter: CategoryListAdapter
     private lateinit var newsSourceListAdapter: NewsSourceListAdapter
 
-    private lateinit var sharedPreferences: LocalPreferences
-
     private lateinit var articleAdapter: FeedAdapter
 
     override val layout: Int = R.layout.fragment_categories
@@ -59,7 +52,7 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
     var loading = true
     var limit = 10
     var page = 1
-    var country = ""
+//    var country = ""
     var cat = "general"
     var sou = ""
     var searchText : String? = ""
@@ -68,15 +61,9 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
 
     override fun onPreparation() {
         AndroidSupportInjection.inject(this)
-        newsViewModel = ViewModelProvider(this, viewModelFactory).get(NewsViewModel::class.java)
-        context?.let {
-            sharedPreferences = LocalPreferences(it.getSharedPreferences(NEWS_PREF, 0))
-        }
+        newsViewModel = ViewModelProvider(this, viewModelFactory)[NewsViewModel::class.java]
         source = mutableListOf()
         news = mutableListOf()
-    }
-
-    override fun onIntent() {
     }
 
     override fun onUi() {
@@ -176,10 +163,6 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
             }
             return@setOnEditorActionListener false
         }
-    }
-
-    private fun validate(){
-
     }
 
     private fun searchResult(search: String){

@@ -50,7 +50,7 @@ class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
 
     override fun onPreparation() {
         AndroidSupportInjection.inject(this)
-        newsViewModel = ViewModelProvider(this, viewModelFactory).get(NewsViewModel::class.java)
+        newsViewModel = ViewModelProvider(this, viewModelFactory)[NewsViewModel::class.java]
         news = mutableListOf()
     }
 
@@ -67,8 +67,6 @@ class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
         )){ manageStateArticle(it) }
     }
 
-    override fun onIntent() {
-    }
 
     override fun onUi() {
         categoryListAdapter = CategoryListAdapter(

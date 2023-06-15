@@ -8,11 +8,6 @@ import android.webkit.*
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
-import java.io.File
 
 val categoryList = listOf("business", "entertainment", "general", "health", "science", "sports", "technology")
 
@@ -49,19 +44,6 @@ fun hasNetwork(context: Context): Boolean {
         }
     }
     return result
-}
-
-fun <T> fromJsonToObject(data: String, cls: Class<T>): T {
-    val gson = Gson()
-    return gson.fromJson(data, cls)
-}
-
-fun File.toRequestBody(content: ByteArrayOutputStream): RequestBody {
-    return RequestBody.create("image/jpeg".toMediaType(), content.toByteArray())
-}
-
-fun String.toRequestBody(): RequestBody {
-    return RequestBody.create("text/plain".toMediaType(), this)
 }
 
 fun ImageView.loadImage(url: String) {
@@ -128,11 +110,11 @@ fun overrideWebView(viewWeb : WebView, context : Context, enabled:Boolean = true
 fun setDesktopMode(webView: WebView, enabled: Boolean) {
     var newUserAgent: String? = webView.settings.userAgentString
 
-    if (enabled) {
-        newUserAgent = webView.settings.userAgentString.replace("Mobile", "eliboM").replace("Android", "diordnA");
+    newUserAgent = if (enabled) {
+        webView.settings.userAgentString.replace("Mobile", "eliboM").replace("Android", "diordnA")
     }
     else {
-        newUserAgent = webView.settings.userAgentString.replace("eliboM", "Mobile").replace("diordnA", "Android");
+        webView.settings.userAgentString.replace("eliboM", "Mobile").replace("diordnA", "Android")
     }
     webView.settings.apply {
         userAgentString = newUserAgent

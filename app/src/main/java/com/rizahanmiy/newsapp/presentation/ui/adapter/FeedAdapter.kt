@@ -19,8 +19,6 @@ class FeedAdapter(
     RecyclerView.Adapter<FeedViewHolder>() {
 
     companion object {
-        var currentSelectIndex = -1
-        const val REQUEST_PRODUCTQTY = 1
         const val LOADING_VIEW = 0
         const val CONTENT_VIEW = 1
     }
@@ -34,7 +32,7 @@ class FeedAdapter(
         return when (viewType) {
             LOADING_VIEW -> {
                 val itemView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.layout_shimmer_one_line_option, parent, false)
+                    .inflate(R.layout.list_item_article, parent, false)
                 return FeedViewHolder(itemView)
             }
             CONTENT_VIEW -> {
@@ -44,7 +42,7 @@ class FeedAdapter(
             }
             else -> {
                 val itemView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.layout_shimmer_one_line_option, parent, false)
+                    .inflate(R.layout.list_item_article, parent, false)
                 return FeedViewHolder(itemView)
             }
         }

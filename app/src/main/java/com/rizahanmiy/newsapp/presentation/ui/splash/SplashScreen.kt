@@ -1,6 +1,5 @@
 package com.rizahanmiy.newsapp.presentation.ui.splash
 
-import android.content.Intent
 import android.os.Handler
 import android.util.Log
 import android.widget.Toast
@@ -13,7 +12,6 @@ import com.rizahanmiy.newsapp.domain.common.ResultState
 import com.rizahanmiy.newsapp.presentation.ui.main.MainActivity
 import com.rizahanmiy.newsapp.presentation.viewmodel.NewsViewModel
 import com.rizahanmiy.newsapp.presentation.viewmodel.ViewModelFactory
-import com.rizahanmiy.newsapp.utils.extension.observe
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -29,7 +27,7 @@ class SplashScreen : BaseActivity() {
 
     override fun onPreparation() {
         AndroidInjection.inject(this)
-        newsViewModel = ViewModelProvider(this, viewModelFactory).get(NewsViewModel::class.java)
+        newsViewModel = ViewModelProvider(this, viewModelFactory)[NewsViewModel::class.java]
 
         handler = Handler()
         handler.postDelayed({
