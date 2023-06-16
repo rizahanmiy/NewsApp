@@ -167,8 +167,8 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
 
     private fun searchResult(search: String){
         if (rbSource.isChecked){
-            observe(newsViewModel.fetchArticle(
-                page = page,
+            observe(newsViewModel.fetchArticleSources(
+                page = 1,
                 pageSize = limit,
                 sources = search
 
@@ -177,7 +177,7 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
             }
         }else if(rbArticle.isChecked){
             observe(newsViewModel.fetchArticle(
-                page = page,
+                page = 1,
                 pageSize = limit,
                 search = search
 
