@@ -134,6 +134,8 @@ dependencies {
 
     //Work
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
+    implementation 'android.arch.work:work-runtime:1.0.1'
 
     //lifecycle & LiveData
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'

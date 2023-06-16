@@ -41,8 +41,8 @@ class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
     var loading = true
     var limit = 10
     var page = 1
-    var country = "general"
-    var category = ""
+    var country = ""
+    var category = "business"
 
     var categoryData : List<String> = categoryList
 

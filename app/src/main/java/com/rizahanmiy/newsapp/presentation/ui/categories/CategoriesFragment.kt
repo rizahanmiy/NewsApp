@@ -53,7 +53,7 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
     var limit = 10
     var page = 1
 //    var country = ""
-    var cat = "general"
+    var cat = "business"
     var sou = ""
     var searchText : String? = ""
 
@@ -228,14 +228,15 @@ class CategoriesFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
     }
 
     override fun onObserver() {
-        observe(newsViewModel.fetchArticle(
-            page = page,
-            pageSize = limit,
-            country = "",
-            category = cat
-        )){
-            manageStateArticle(it)
-        }
+//        observe(newsViewModel.fetchArticle(
+//            page = page,
+//            pageSize = limit,
+//            country = "",
+//            category = cat
+//        )){
+//            manageStateArticle(it)
+//        }
+        getSource()
     }
 
     private fun getSource(){
