@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white_100"
     tools:context=".presentation.ui.webview.WebViewActivity">
 
-    <include layout="@layout/layout_toolbar_level2"/>
+    <include layout="@layout/layout_toolbar_level2" />
 
     <WebView
         android:id="@+id/viewWeb"

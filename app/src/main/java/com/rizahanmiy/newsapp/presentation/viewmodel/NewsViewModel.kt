@@ -11,14 +11,13 @@ import kotlin.collections.HashMap
 
 class NewsViewModel @Inject constructor(private val useCase: UserUseCase) : BaseViewModel() {
 
-    fun fetchArticle(page: Int?, pageSize: Int?, country: String? = "", category: String? = "", sources: String? = "",search: String? = ""): MutableLiveData<ResultState<MutableList<NewsArticlesApi>>> {
+    fun fetchArticle(page: Int?, pageSize: Int?, country: String? = "", category: String? = "",search: String? = ""): MutableLiveData<ResultState<MutableList<NewsArticlesApi>>> {
         val fetchResult = MutableLiveData<ResultState<MutableList<NewsArticlesApi>>>()
         val param = HashMap<String, Any?>()
         param["page"] = page
         param["pageSize"] = pageSize
         param["country"] = country
         param["category"] = category
-        param["sources"] = sources
         param["q"] = search
 
         val disposable = useCase.fetchArticle(param)
@@ -32,12 +31,13 @@ class NewsViewModel @Inject constructor(private val useCase: UserUseCase) : Base
         return fetchResult
     }
 
-    fun fetchArticleSources(page: Int?, pageSize: Int?, sources: String? = ""): MutableLiveData<ResultState<MutableList<NewsArticlesApi>>> {
+    fun fetchArticleSources(page: Int?, pageSize: Int?, sources: String? = "", search: String? = ""): MutableLiveData<ResultState<MutableList<NewsArticlesApi>>> {
         val fetchResult = MutableLiveData<ResultState<MutableList<NewsArticlesApi>>>()
         val param = HashMap<String, Any?>()
         param["page"] = page
         param["pageSize"] = pageSize
         param["sources"] = sources
+        param["q"] = search
 
         val disposable = useCase.fetchEverything(param)
             .doOnSubscribe{
@@ -50,11 +50,10 @@ class NewsViewModel @Inject constructor(private val useCase: UserUseCase) : Base
         return fetchResult
     }
 
-    fun fetchSource(page: Int?, pageSize: Int?, country: String? = "", category: String? = ""): MutableLiveData<ResultState<MutableList<NewsSourceApi>>> {
+    fun fetchSource(language: String = "",country: String? = "", category: String? = ""): MutableLiveData<ResultState<MutableList<NewsSourceApi>>> {
         val fetchResult = MutableLiveData<ResultState<MutableList<NewsSourceApi>>>()
         val param = HashMap<String, Any?>()
-        param["page"] = page
-        param["pageSize"] = pageSize
+        param["language"] = language
         param["country"] = country
         param["category"] = category
 

@@ -81,14 +81,14 @@ android {
             manifestPlaceholders = [appLabel: "News App"]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "SERVER_URL", '"https://newsapi.org/v2/"'
-            buildConfigField "String", "API_KEY", '"8a245bdb026f4a64b133e723c81d988c"'
+            buildConfigField "String", "API_KEY", '"4a53dd02c27a467398bdbfc14a1a65b5"'
         }
         development {
             manifestPlaceholders = [appLabel: "Dev News App"]
             applicationIdSuffix ".dev"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "SERVER_URL", '"https://newsapi.org/v2/"'
-            buildConfigField "String", "API_KEY", '"8a245bdb026f4a64b133e723c81d988c"'
+            buildConfigField "String", "API_KEY", '"4a53dd02c27a467398bdbfc14a1a65b5"'
         }
     }
 

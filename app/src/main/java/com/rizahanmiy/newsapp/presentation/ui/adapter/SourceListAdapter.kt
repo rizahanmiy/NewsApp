@@ -9,11 +9,11 @@ import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.entities.NewsSourceApi
 import kotlinx.android.synthetic.main.list_item_source.view.*
 
-class NewsSourceListAdapter(
+class SourceListAdapter(
     val context: Context,
     val data:MutableList<NewsSourceApi>,
-    val onCategoryClicked: ((category: String?) -> Unit)? = null,
-):RecyclerView.Adapter<NewsSourceListAdapter.NewsSourceViewHolder>() {
+    val onSourceClicked: ((category: String?) -> Unit)? = null,
+):RecyclerView.Adapter<SourceListAdapter.NewsSourceViewHolder>() {
 
     companion object {
         var last_position = 0
@@ -29,18 +29,18 @@ class NewsSourceListAdapter(
 
     override fun onBindViewHolder(holder: NewsSourceViewHolder, position: Int) {
         holder.bind(data[position])
-        holder.itemView.tvTitle.setTextColor(context.getColor(R.color.night_black))
+        holder.itemView.tvSource.setTextColor(context.getColor(R.color.white_200))
 
         holder.itemView.setOnClickListener {
             last_position = position
-            onCategoryClicked?.invoke(data[position].id)
+            onSourceClicked?.invoke(data[position].id)
             notifyDataSetChanged()
         }
 
         if (last_position == position) {
-            holder.itemView.tvTitle.setTextColor(context.getColor(R.color.orange))
+            holder.itemView.tvSource.setTextColor(context.getColor(R.color.blue_100))
         } else {
-            holder.itemView.tvTitle.setTextColor(context.getColor(R.color.night_black))
+            holder.itemView.tvSource.setTextColor(context.getColor(R.color.white_200))
         }
     }
 
@@ -48,7 +48,7 @@ class NewsSourceListAdapter(
     inner class NewsSourceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: NewsSourceApi?) {
             with(itemView) {
-                tvTitle.text = data?.name
+                tvSource.text = data?.name
             }
         }
     }

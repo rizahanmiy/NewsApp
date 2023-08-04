@@ -1,85 +1,69 @@
-package com.rizahanmiy.newsapp.presentation.ui.feed
+package com.rizahanmiy.newsapp.presentation.ui.explore
 
 
+import android.content.Context
 import android.util.Log
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.base.BaseFragment
 import com.rizahanmiy.newsapp.data.entities.NewsArticlesApi
+import com.rizahanmiy.newsapp.data.entities.NewsSourceApi
 import com.rizahanmiy.newsapp.domain.common.ResultState
 import com.rizahanmiy.newsapp.domain.common.State
-import com.rizahanmiy.newsapp.presentation.ui.adapter.CategoryListAdapter
 import com.rizahanmiy.newsapp.presentation.ui.adapter.FeedAdapter
+import com.rizahanmiy.newsapp.presentation.ui.adapter.SourceListAdapter
 import com.rizahanmiy.newsapp.presentation.ui.webview.WebViewActivity
 import com.rizahanmiy.newsapp.presentation.viewmodel.NewsViewModel
 import com.rizahanmiy.newsapp.presentation.viewmodel.ViewModelFactory
-import com.rizahanmiy.newsapp.utils.common.categoryList
 import com.rizahanmiy.newsapp.utils.extension.observe
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_categories.pullToRefresh
-import kotlinx.android.synthetic.main.fragment_feed.*
-import kotlinx.android.synthetic.main.layout_toolbar_categories.*
+import kotlinx.android.synthetic.main.fragment_explore.*
+import kotlinx.android.synthetic.main.layout_toolbar_search.*
+import kotlinx.android.synthetic.main.layout_toolbar_sources.*
 import javax.inject.Inject
 
-
-class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
+class ExploreFragment : BaseFragment(), FeedAdapter.OnArticleClickListener{
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
     private lateinit var newsViewModel: NewsViewModel
-
     private lateinit var scrollListener: RecyclerView.OnScrollListener
+    private lateinit var source: MutableList<NewsSourceApi>
     private lateinit var news: MutableList<NewsArticlesApi>
-    private lateinit var categoryListAdapter: CategoryListAdapter
-
+    private lateinit var sourceListAdapter: SourceListAdapter
     private lateinit var articleAdapter: FeedAdapter
-
     var previousTotalItemCount = 0
     var loading = true
     var limit = 10
     var page = 1
-    var country = ""
-    var category = "business"
+    var sou = ""
+    var searchText : String? = ""
 
-    var categoryData : List<String> = categoryList
-
-    override val layout: Int = R.layout.fragment_feed
+    override val layout: Int = R.layout.fragment_explore
 
     override fun onPreparation() {
         AndroidSupportInjection.inject(this)
         newsViewModel = ViewModelProvider(this, viewModelFactory)[NewsViewModel::class.java]
+        source = mutableListOf()
         news = mutableListOf()
     }
 
-    private fun onClickCategory(data:String?){
-        if (data != null) {
-            category = data
-        }
-
-        observe(newsViewModel.fetchArticle(
-            page = page,
-            pageSize = limit,
-            country = country,
-            category = category
-        )){ manageStateArticle(it) }
-    }
-
-
     override fun onUi() {
-        categoryListAdapter = CategoryListAdapter(
+        //News Source RV
+        sourceListAdapter = SourceListAdapter(
             context = this.requireContext(),
-            data = categoryData,
-            onCategoryClicked = {
-                onClickCategory(it)
+            data = source,
+            onSourceClicked = {
+                onClickSources(source = it)
             },
-            feed = true
         )
 
-        rvCategory.apply {
-            adapter = categoryListAdapter
+        rvSource.apply {
+            adapter = sourceListAdapter
             layoutManager = LinearLayoutManager(
                 this.context,
                 RecyclerView.HORIZONTAL,
@@ -90,11 +74,11 @@ class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
 
     override fun onAction() {
         pullToRefresh.setOnRefreshListener {
-            observe(newsViewModel.fetchArticle(
+            observe(newsViewModel.fetchArticleSources(
                 page = 1,
-                pageSize = 10,
-                country = country,
-                category = category
+                pageSize = limit,
+                search = searchText,
+                sources = sou
             )){
                 manageStateArticle(it)
             }
@@ -115,17 +99,46 @@ class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
                     previousTotalItemCount = totalItemCount
                 }
                 if (!loading && (pastVisibleItem + visibleItemCount) > totalItemCount) {
-                    observe(newsViewModel.fetchArticle(
+                    observe(newsViewModel.fetchArticleSources(
                         page = page,
                         pageSize = limit,
-                        country = country
+                        sources = sou
                     ), ::setItemProductsPaging
                     )
                     loading = true
                 }
             }
         }
+
         rvArticle.addOnScrollListener(scrollListener)
+
+        etSearch.setOnEditorActionListener { _, id, _ ->
+            if (id == EditorInfo.IME_ACTION_SEARCH) {
+                val imm: InputMethodManager =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(
+                    etSearch.windowToken,
+                    InputMethodManager.RESULT_UNCHANGED_SHOWN
+                )
+
+                searchText = etSearch.text.toString()
+                searchResult()
+            }
+            return@setOnEditorActionListener false
+        }
+    }
+
+    private fun searchResult(){
+
+        observe(newsViewModel.fetchArticleSources(
+            page = 1,
+            pageSize = limit,
+            search = searchText,
+            sources = sou
+
+        )){
+            manageStateArticle(it)
+        }
     }
 
     private fun setItemProductsPaging(productResult: ResultState<MutableList<NewsArticlesApi>>) {
@@ -164,29 +177,55 @@ class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
         }
         return maxSize
     }
+
     override fun onObserver() {
-        observe(newsViewModel.fetchArticle(
-            page = page,
+        observe(newsViewModel.fetchSource()){ manageStateSource(it) }
+    }
+
+    private fun getArticle(){
+        observe(newsViewModel.fetchArticleSources(
+            page = 1,
             pageSize = limit,
-            country = country,
-            category = category
-        )){
-            manageStateArticle(it)
+            sources = sou,
+            search = searchText
+        )){ manageStateArticle(it) }
+    }
+
+    private fun onClickSources(source:String? = ""){
+        sou = source.toString()
+
+        if (sou.isNotBlank()){
+            getArticle()
         }
+
     }
 
     private fun showArticle(){
-        context?.let {
-            articleAdapter = FeedAdapter(it, news , this)
-            context.let {
-                rvArticle.apply {
-                    adapter = articleAdapter
-                    layoutManager = LinearLayoutManager(
-                        it,
-                        RecyclerView.VERTICAL,
-                        false
-                    )
-                }
+        articleAdapter = FeedAdapter(
+            this.requireContext(),
+            news ,
+            this)
+
+        rvArticle.apply {
+            adapter = articleAdapter
+            layoutManager = LinearLayoutManager(
+                this.context,
+                RecyclerView.VERTICAL,
+                false
+            )
+        }
+    }
+    private fun manageStateSource(result: ResultState<MutableList<NewsSourceApi>>) {
+        when (result) {
+            is ResultState.Success -> {
+                source.clear()
+                source.addAll(result.data)
+                sou = source[0].id.toString()
+                getArticle()
+                sourceListAdapter.notifyDataSetChanged()
+            }
+            else -> {
+                Log.d("TAG", "Error")
             }
         }
     }
@@ -223,19 +262,17 @@ class FeedFragment : BaseFragment(), FeedAdapter.OnArticleClickListener {
         }
     }
 
-    override fun onArticleClicked(item: NewsArticlesApi) {
-        item.url?.let { WebViewActivity.start(requireContext(), it) }
-    }
-
-    //Back to saved Filter
     override fun onPause() {
         super.onPause()
-        Log.d("TAG", "onPause() Article")
+        Log.d("CategoryFragment", "onPause() Article")
     }
+//    override fun onResume() {
+//        super.onResume()
+//        onObserver()
+//    }
 
-    override fun onResume() {
-        super.onResume()
-        onObserver()
+    override fun onArticleClicked(item: NewsArticlesApi) {
+        item.url?.let { WebViewActivity.start(requireContext(), it) }
     }
 
 }

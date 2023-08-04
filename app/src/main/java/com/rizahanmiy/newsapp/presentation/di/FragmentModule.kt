@@ -1,7 +1,7 @@
 package com.rizahanmiy.newsapp.presentation.di
 
-import com.rizahanmiy.newsapp.presentation.ui.categories.CategoriesFragment
-import com.rizahanmiy.newsapp.presentation.ui.feed.FeedFragment
+import com.rizahanmiy.newsapp.presentation.ui.explore.ExploreFragment
+import com.rizahanmiy.newsapp.presentation.ui.home.HomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,9 +9,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentModule {
 
     @ContributesAndroidInjector
-    abstract fun feedFragment(): FeedFragment
+    abstract fun homeFragment(): HomeFragment
 
     @ContributesAndroidInjector
-    abstract fun categoriesFragment(): CategoriesFragment
+    abstract fun exploreFragment(): ExploreFragment
 
 }

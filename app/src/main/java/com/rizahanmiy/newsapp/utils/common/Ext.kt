@@ -1,13 +1,15 @@
 package com.rizahanmiy.newsapp.utils.common
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.webkit.*
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
+import java.util.*
 
 val categoryList = listOf("business", "entertainment", "general", "health", "science", "sports", "technology")
 
@@ -15,31 +17,13 @@ fun hasNetwork(context: Context): Boolean {
     var result = false
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as
             ConnectivityManager
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        connectivityManager.run {
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.run {
-                result = when {
-                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                    else -> false
-                }
-            }
-        }
-    } else {
-        connectivityManager.run {
-            connectivityManager.activeNetworkInfo?.run {
-                if (type == ConnectivityManager.TYPE_WIFI) {
-                    if (this.isConnected) {
-                        result = true
-
-                    }
-                } else if (type == ConnectivityManager.TYPE_MOBILE) {
-                    if (this.isConnected) {
-                        result = true
-
-                    }
-                }
+    connectivityManager.run {
+        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.run {
+            result = when {
+                hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
             }
         }
     }
@@ -52,6 +36,7 @@ fun ImageView.loadImage(url: String) {
         .into(this)
 }
 
+@SuppressLint("SetJavaScriptEnabled")
 fun overrideWebView(viewWeb : WebView, context : Context, enabled:Boolean = true){
 
     val newUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15"
@@ -108,9 +93,8 @@ fun overrideWebView(viewWeb : WebView, context : Context, enabled:Boolean = true
 }
 
 fun setDesktopMode(webView: WebView, enabled: Boolean) {
-    var newUserAgent: String? = webView.settings.userAgentString
 
-    newUserAgent = if (enabled) {
+    val newUserAgent: String = if (enabled) {
         webView.settings.userAgentString.replace("Mobile", "eliboM").replace("Android", "diordnA")
     }
     else {
@@ -122,5 +106,17 @@ fun setDesktopMode(webView: WebView, enabled: Boolean) {
         loadWithOverviewMode = enabled
         setSupportZoom(true)
     }
-//        webView.reload()
+}
+
+fun todayDate(): String {
+    val calendar = Calendar.getInstance()
+    val indonesiaLocale = Locale("id", "ID")
+
+    val dayFormat = SimpleDateFormat("EEEE", indonesiaLocale)
+    val dateFormat = SimpleDateFormat("dd MMMM yyyy", indonesiaLocale)
+
+    val day = dayFormat.format(calendar.time)
+    val date = dateFormat.format(calendar.time)
+
+    return "$day, $date"
 }

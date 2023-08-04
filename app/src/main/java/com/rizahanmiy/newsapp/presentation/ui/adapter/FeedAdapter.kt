@@ -1,8 +1,10 @@
 package com.rizahanmiy.newsapp.presentation.ui.adapter
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.entities.NewsArticlesApi
@@ -25,9 +27,6 @@ class FeedAdapter(
     var state = State.LOADING
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
-/*        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_history_order, parent, false)
-        return FeedOrderViewHolder(itemView)*/
 
         return when (viewType) {
             LOADING_VIEW -> {
@@ -61,6 +60,7 @@ class FeedAdapter(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
         val item = articles[position]
         holder.bindTo(item)
