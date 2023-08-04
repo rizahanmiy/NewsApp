@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/navigation_satu"
-        android:icon="@drawable/selector_ic_feed"
-        android:title="@string/fragment_feeds"/>
+        android:icon="@drawable/selector_ic_home"
+        android:title="@string/fragment_home" />
 
     <item
         android:id="@+id/navigation_dua"
-        android:icon="@drawable/selector_ic_categories"
-        android:title="@string/fragment_category" />
+        android:icon="@drawable/selector_ic_explore"
+        android:title="@string/fragment_explore" />
 
 
 </menu>

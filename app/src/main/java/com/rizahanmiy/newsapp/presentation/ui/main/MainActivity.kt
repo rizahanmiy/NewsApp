@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rizahanmiy.newsapp.R
 import com.rizahanmiy.newsapp.data.base.BaseActivity
-import com.rizahanmiy.newsapp.presentation.ui.categories.CategoriesFragment
-import com.rizahanmiy.newsapp.presentation.ui.feed.FeedFragment
+import com.rizahanmiy.newsapp.presentation.ui.explore.ExploreFragment
+import com.rizahanmiy.newsapp.presentation.ui.home.HomeFragment
 import com.rizahanmiy.newsapp.presentation.viewmodel.NewsViewModel
 import com.rizahanmiy.newsapp.presentation.viewmodel.ViewModelFactory
 import com.rizahanmiy.newsapp.utils.common.IOSelectTab
@@ -46,9 +46,9 @@ class MainActivity : BaseActivity(), IOSelectTab,
         }
     }
 
-    private val feedFragment: FeedFragment by lazy { FeedFragment() }
-    private val categoriesFragment: CategoriesFragment by lazy { CategoriesFragment() }
-    private var activeFragment: Fragment = FeedFragment()
+    private val homeFragment: HomeFragment by lazy { HomeFragment() }
+    private val exploreFragment: ExploreFragment by lazy { ExploreFragment() }
+    private var activeFragment: Fragment = HomeFragment()
 
     override val layout: Int = R.layout.activity_main
 
@@ -65,8 +65,8 @@ class MainActivity : BaseActivity(), IOSelectTab,
     }
 
     private fun setupBottomMainMenu() {
-        replaceFragment(R.id.frame, feedFragment)
-        activeFragment = feedFragment
+        replaceFragment(R.id.frame, homeFragment)
+        activeFragment = homeFragment
         bnvMain.selectedItemId = R.id.navigation_satu
         bnvMain.itemIconTintList = null
     }
@@ -101,11 +101,11 @@ class MainActivity : BaseActivity(), IOSelectTab,
     override fun selectedTab(position: Int) {
         when (position) {
             FEED_PAGE -> {
-                activeFragment = feedFragment
+                activeFragment = homeFragment
                 bnvMain.selectedItemId = R.id.navigation_satu
             }
             CATEGORY_PAGE -> {
-                activeFragment = categoriesFragment
+                activeFragment = exploreFragment
                 bnvMain.selectedItemId = R.id.navigation_dua
             }
         }
@@ -114,12 +114,12 @@ class MainActivity : BaseActivity(), IOSelectTab,
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_satu -> {
-                replaceFragment(R.id.frame, feedFragment)
-                activeFragment = feedFragment
+                replaceFragment(R.id.frame, homeFragment)
+                activeFragment = homeFragment
             }
             R.id.navigation_dua -> {
-                replaceFragment(R.id.frame, categoriesFragment)
-                activeFragment = categoriesFragment
+                replaceFragment(R.id.frame, exploreFragment)
+                activeFragment = exploreFragment
             }
         }
         return true
@@ -127,11 +127,11 @@ class MainActivity : BaseActivity(), IOSelectTab,
 
     private fun updateBottomNavigationHighlight() {
         when (activeFragment) {
-            is FeedFragment -> {
+            is HomeFragment -> {
                 bnvMain.selectedItemId = R.id.navigation_satu
                 currentTab = 1
             }
-            is CategoriesFragment -> {
+            is ExploreFragment -> {
                 bnvMain.selectedItemId = R.id.navigation_dua
             }
         }

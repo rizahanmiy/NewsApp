@@ -11,13 +11,11 @@ import kotlinx.android.synthetic.main.list_item_news_category.view.*
 class CategoryListAdapter(
     val context: Context,
     val data:List<String?>,
-    val onCategoryClicked: ((category: String?) -> Unit)? = null,
-    val feed:Boolean
+    val onCategoryClicked: ((category: String?) -> Unit)? = null
 ):RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>() {
 
     companion object {
         var last_position = 0
-        var last_position_feed = 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -30,30 +28,18 @@ class CategoryListAdapter(
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.bind(data[position])
-        holder.itemView.setBackgroundColor(context.getColor(R.color.night_black))
+        holder.itemView.btCategory.setTextColor(context.getColor(R.color.white_200))
 
         holder.itemView.setOnClickListener {
-            if (feed){
-                last_position = position
-            }else{
-                last_position_feed = position
-            }
+            last_position = position
             onCategoryClicked?.invoke(data[position])
             notifyDataSetChanged()
         }
 
-        if (feed){
-            if (last_position == position) {
-                holder.itemView.setBackgroundColor(context.getColor(R.color.orange))
-            } else {
-                holder.itemView.setBackgroundColor(context.getColor(R.color.night_black))
-            }
-        }else{
-            if (last_position_feed == position) {
-                holder.itemView.setBackgroundColor(context.getColor(R.color.orange))
-            } else {
-                holder.itemView.setBackgroundColor(context.getColor(R.color.night_black))
-            }
+        if (last_position == position) {
+            holder.itemView.btCategory.setTextColor(context.getColor(R.color.blue_100))
+        } else {
+            holder.itemView.btCategory.setTextColor(context.getColor(R.color.white_200))
         }
 
     }
@@ -62,7 +48,7 @@ class CategoryListAdapter(
     inner class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: String?) {
             with(itemView) {
-                btCategory.text = data
+                btCategory.text = "#$data"
             }
         }
     }
