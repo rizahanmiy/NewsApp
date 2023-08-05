@@ -32,19 +32,6 @@ android {
 
     signingConfigs {
         config {
-            Properties properties = new Properties()
-            def keystores = rootProject.file('keystore.properties.txt')
-            storeFile file('/Users/rizahanmiy/Documents/MoviesApp/moviesapp.jks')
-            storePassword 'MoviesApp123'
-            keyAlias 'MoviesApp'
-            keyPassword 'MoviesApp123'
-            properties.load(new FileInputStream(keystores))
-            if (keystores.exists()) {
-                keyAlias = properties['ALIAS_NAME']
-                keyPassword = properties['ALIAS_PASS']
-                storeFile file(properties['RELEASE_KEY'])
-                storePassword properties['KEYSTORE_PASS']
-            }
         }
     }
 
