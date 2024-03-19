@@ -1,12 +1,11 @@
 # NewsApp Android Sample
 
 ## About App
-This app uses MVVM, clean architecture and [NewsAPI](https://newsapi.org/) to get various sources and each source can provide major headlines.
-It uses [Retrofit 2](http://square.github.io/retrofit/) to fetch news sources and news headlines from the API and displays in a RecyclerView.
-The main aim of this sample app is show how do i develop an android app using kotlin.
+This application implements MVVM, clean architecture, and [NewsAPI](https://newsapi.org/) to retrieve diverse sources, each capable of supplying major headlines. [Retrofit 2](http://square.github.io/retrofit/) is employed to fetch news sources and headlines from the API, presenting them in a RecyclerView. The primary objective of this exemplary application is to demonstrate the development of a basic Android app using Kotlin.
 
-## If you want to run:
+## Installation:
 - Go to [NewsAPI](https://newsapi.org/) and generate an API key
+- Clone this repository
 - Put the API key at the bottom of the `build.gradle` module level.
 
 `
